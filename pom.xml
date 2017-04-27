@@ -163,6 +163,16 @@
 					<wtpContextName>spring-mvc-db</wtpContextName>
 				</configuration>
 			</plugin>
+
+            <!-- https://habrahabr.ru/post/226663                                                    -->
+            <!-- maven-war-plugin с помощтю которого мы сможем отключить необходимость web.xml файла -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 </project>

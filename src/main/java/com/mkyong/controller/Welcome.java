@@ -14,9 +14,9 @@ import com.mkyong.dao.UserDao;
 import com.mkyong.model.User;
 
 @Controller
-public class WelcomeController {
+public class Welcome {
 
-	private static final Logger logger = LoggerFactory.getLogger(WelcomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(Welcome.class);
 
 	@Autowired
 	UserDao userDao;
@@ -24,10 +24,11 @@ public class WelcomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String welcome(Model model) {
 		logger.debug("mkyong");
-		//User user = userDao.findByName("mkyong");
-		List<User> users = userDao.findAll();
+
+		List<User> users = userDao.findAll(); //User user = userDao.findByName("mkyong");
 		System.out.println(users);
 		model.addAttribute("user", users);
+
 		return "index";
 	}
 }
