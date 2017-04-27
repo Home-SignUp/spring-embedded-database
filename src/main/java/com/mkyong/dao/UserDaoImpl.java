@@ -13,12 +13,19 @@ import org.springframework.stereotype.Repository;
 
 import com.mkyong.model.User;
 
+
+/**
+ ** @see https://easyjava.ru/spring/spring-data-access/zaprosy-v-spring-jdbc/
+ *       http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/core/namedparam/NamedParameterJdbcTemplate.html
+ *  @see http://javastudy.ru/hibernate/hibernate-namedquery/
+ */
+
 @Repository
 public class UserDaoImpl implements UserDao {
 
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    private final String sqlFindByName = "SELECT * FROM users WHERE name=:name";
-    private final String    sqlFindAll = "SELECT * FROM users";
+    private static final String FIND_BY_NAME_QUERY = "SELECT * FROM users WHERE name=:name",
+            FIND_ALL_QUERY = "SELECT * FROM users";
 
     @Autowired
 	public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -29,7 +36,7 @@ public class UserDaoImpl implements UserDao {
 	public User findByName(String name) {
 		Map<String, Object> params = new HashMap<String, Object>();
         params.put("name", name);
-        User result = namedParameterJdbcTemplate.queryForObject(sqlFindByName, params, new UserMapper());
+        User result = namedParameterJdbcTemplate.queryForObject(FIND_BY_NAME_QUERY, params, new UserMapper());
         //new BeanPropertyRowMapper(Customer.class));
 
         return result;
@@ -38,7 +45,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public List<User> findAll() {
 		Map<String, Object> params = new HashMap<String, Object>();
-        List<User> result = namedParameterJdbcTemplate.query(sqlFindAll, params, new UserMapper());
+        List<User> result = namedParameterJdbcTemplate.query(FIND_ALL_QUERY, params, new UserMapper());
 
         return result;
 	}

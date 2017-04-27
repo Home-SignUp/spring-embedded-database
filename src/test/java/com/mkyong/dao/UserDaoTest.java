@@ -13,9 +13,8 @@ import com.mkyong.model.User;
 
 public class UserDaoTest {
 
-    private EmbeddedDatabase db;
-
     UserDao userDao;
+    private EmbeddedDatabase db;
     
     @Before
     public void setUp() {
