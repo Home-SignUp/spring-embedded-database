@@ -16,9 +16,11 @@ import com.mkyong.model.User;
 @Repository
 public class UserDaoImpl implements UserDao {
 
-	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-	
-	@Autowired
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final String sqlFindByName = "SELECT * FROM users WHERE name=:name";
+    private final String    sqlFindAll = "SELECT * FROM users";
+
+    @Autowired
 	public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 	}
@@ -27,19 +29,17 @@ public class UserDaoImpl implements UserDao {
 	public User findByName(String name) {
 		Map<String, Object> params = new HashMap<String, Object>();
         params.put("name", name);
-		String sql = "SELECT * FROM users WHERE name=:name";
-		
-        User result = namedParameterJdbcTemplate.queryForObject(sql, params, new UserMapper());
+        User result = namedParameterJdbcTemplate.queryForObject(sqlFindByName, params, new UserMapper());
         //new BeanPropertyRowMapper(Customer.class));
+
         return result;
 	}
 
 	@Override
 	public List<User> findAll() {
 		Map<String, Object> params = new HashMap<String, Object>();
-		String sql = "SELECT * FROM users";
+        List<User> result = namedParameterJdbcTemplate.query(sqlFindAll, params, new UserMapper());
 
-        List<User> result = namedParameterJdbcTemplate.query(sql, params, new UserMapper());
         return result;
 	}
 
@@ -50,6 +50,7 @@ public class UserDaoImpl implements UserDao {
 			user.setId(rs.getInt("id"));
 			user.setName(rs.getString("name"));
 			user.setEmail(rs.getString("email"));
+
 			return user;
 		}
 	}
