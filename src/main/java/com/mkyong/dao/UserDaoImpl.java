@@ -13,10 +13,18 @@ import org.springframework.stereotype.Repository;
 
 import com.mkyong.model.User;
 
+/**
+ ** @see https://easyjava.ru/spring/spring-data-access/zaprosy-v-spring-jdbc/
+ *       http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/core/namedparam/NamedParameterJdbcTemplate.html
+ *  @see http://javastudy.ru/hibernate/hibernate-namedquery/
+ */
+
 @Repository
 public class UserDaoImpl implements UserDao {
 
-	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private static final String FIND_BY_NAME_QUERY = "SELECT * FROM users WHERE name=:name",
+            FIND_ALL_QUERY = "SELECT * FROM users";
 	
 	@Autowired
 	public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
